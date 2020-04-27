@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarLayout appBarLayout;
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH);
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM", /*Locale.getDefault()*/Locale.ENGLISH);
 
     private CompactCalendarView compactCalendarView;
 
@@ -63,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                setSubtitle(dateFormat.format(dateClicked));
+                setTitle(dateFormat.format(dateClicked));
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                setSubtitle(dateFormat.format(firstDayOfNewMonth));
+                setTitle(dateFormat.format(firstDayOfNewMonth));
             }
         });
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         final ImageView arrow = findViewById(R.id.date_picker_arrow);
 
-        RelativeLayout datePickerButton = findViewById(R.id.date_picker_button);
+        LinearLayout datePickerButton = findViewById(R.id.date_picker_button);
 
         datePickerButton.setOnClickListener(v -> {
             float rotation = isExpanded ? 0 : 180;
@@ -89,22 +90,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setCurrentDate(Date date) {
-        setSubtitle(dateFormat.format(date));
+        setTitle(dateFormat.format(date));
         if (compactCalendarView != null) {
             compactCalendarView.setCurrentDate(date);
         }
     }
 
+//    @Override
+//    public void setTitle(CharSequence title) {
+//        TextView tvTitle = findViewById(R.id.title);
+//
+//        if (tvTitle != null) {
+//            tvTitle.setText(title);
+//        }
+//    }
+
     @Override
-    public void setTitle(CharSequence title) {
-        TextView tvTitle = findViewById(R.id.title);
-
-        if (tvTitle != null) {
-            tvTitle.setText(title);
-        }
-    }
-
-    private void setSubtitle(String subtitle) {
+    public void setTitle(CharSequence subtitle) {
         TextView datePickerTextView = findViewById(R.id.date_picker_text_view);
 
         if (datePickerTextView != null) {
